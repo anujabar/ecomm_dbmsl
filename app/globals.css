@@ -92,3 +92,28 @@ form.signup, form.login {
   background: #fff;
   border-radius: 4px;
 }
+
+.logout-confirm {
+  max-width: 400px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 4px;
+}
+
+.choice-btns button{
+  border: 0;
+  color: #fff;
+  padding: 10px;
+  font-family: "Poppins";
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 20px;
+  @apply bg-primary
+}
+
+.choice-btns{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
