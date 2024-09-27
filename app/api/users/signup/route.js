@@ -2,10 +2,11 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import validator from "validator"
-import {users} from "../../../../db/schema.js"
+import { users } from "@/db/Schema.js";
 import db from "@/db/drizzle.js";
 import { eq } from 'drizzle-orm';
 import "dotenv/config"
+
 
 const createToken=(id)=>{
     return jwt.sign({id:id},process.env.SECRET,{expiresIn:"3d"})
