@@ -2,14 +2,14 @@ import db from "@/db/drizzle";
 import { bucket } from "@/db/firebase";
 import { NextResponse } from "next/server";
 import { products } from "@/db/Schema.js";
-import * as fs from 'fs'
+import { v4 as uuidv4 } from 'uuid';
 
 
 
 const uploadImage = async (file) => {
     console.log('File object:', file); 
-    
-    const blob = bucket.file(file.name);
+    const uniqueFileName = `${uuidv4()}.${file.name.split('.').pop()}`;
+    const blob = bucket.file(uniqueFileName);
     const blobStream = blob.createWriteStream({
       metadata: {
         contentType: file.type,
