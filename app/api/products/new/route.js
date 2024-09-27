@@ -46,7 +46,6 @@ export async function POST(req) {
     const price = formData.get('price');
     const category = formData.get('category');
     const salePercentage = formData.get('salePercentage');
-    const stars = formData.get('stars');
     const quantity = formData.get('quantity');
     const description = formData.get('description');
   
@@ -66,7 +65,7 @@ export async function POST(req) {
         images: imageUrls.join(','), 
         category,
         salePercentage: parseFloat(salePercentage) || 0,
-        stars: parseFloat(stars) || 0,
+        stars: 0,
         quantity: parseInt(quantity) || 0,
         description,
       });

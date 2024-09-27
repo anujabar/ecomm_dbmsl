@@ -107,14 +107,6 @@ const ProductForm = () => {
           />
         </div>
         <div>
-          <label>Stars:</label>
-          <input
-            type="number"
-            value={stars}
-            onChange={(e) => setStars(e.target.value)}
-          />
-        </div>
-        <div>
           <label>Quantity:</label>
           <input
             type="number"
