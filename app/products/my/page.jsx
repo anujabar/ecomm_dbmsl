@@ -4,6 +4,7 @@ import { useAuthContext } from '@/app/(hooks)/useAuthContext'; // Adjust the pat
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Carousel } from 'react-responsive-carousel';
+import ProductCard from '@/app/(components)/ProductCard';
 
 const MyProducts = () => {
   const { user } = useAuthContext();
@@ -46,32 +47,15 @@ const MyProducts = () => {
       {products.length === 0 ? (
         <p>You have no products listed.</p>
       ) : (
-        <ul>
-          {products.map((product) => {
-            const images =product.images.split(',')
-            return(
-            <li key={product.id}>
-              <h2>{product.title}</h2>
-              <p>Price: ${product.price}</p>
-              <p>Category: {product.category}</p>
-              <p>Sale Percentage: {product.salePercentage}%</p>
-              <p>Quantity: {product.quantity}</p>
-              <p>Description: {product.description}</p>
-              <Carousel showThumbs={true} showStatus={false}>
-                  {images.map((url, index) => (
-                    <div key={index} className="h-full flex items-center justify-center">
-                      <img
-                        src={url}
-                        alt={`Product Image ${index + 1}`}
-                        className="h-auto w-auto max-w-full object-contain"
-                      />
-                    </div>
-                  ))}
-                </Carousel>
-             
-            </li>
-          )})}
-        </ul>
+        <div className="container mx-auto px-4 py-8">
+        <h1 className="text-3xl font-bold mb-4">Products</h1>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {products.map((product, ind) => {
+            return <ProductCard product={product} key={ind}/>
+          })}
+        </div>
+      </div>
+    
       )}
     </div>
   );
