@@ -5,6 +5,7 @@ import { NextResponse } from "next/server";
 export async function GET(req){
     try{
         const allProducts = await db.select().from(products)
+        console.log(allProducts)
         return NextResponse.json({products:allProducts}, {status: 200})
     }catch(error){
         console.log(error)
