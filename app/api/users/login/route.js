@@ -41,7 +41,7 @@ export async function POST(req){
         const user= await loginFunc(email,password)
         console.log("USER:",user)
         const token=createToken(user.id)
-        return NextResponse.json({email:email,token:token},{status:201})
+        return NextResponse.json({id:user.id,email:email,token:token},{status:201})
     }
     catch(error){
         console.log("ERROR:",error)

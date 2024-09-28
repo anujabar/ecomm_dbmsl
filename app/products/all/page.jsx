@@ -2,12 +2,33 @@
 import { useEffect, useState } from 'react';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; 
 import { Carousel } from 'react-responsive-carousel';
+import Image from 'next/image';
+import { useAuthContext } from '@/app/(hooks)/useAuthContext';
 
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
-  const [errorMessage, setErrorMessage] = useState('');
-
+  const [errorMessage, setErrorMessage] = useState(null);
+  const {user}=useAuthContext()
+  const handleCart=async (id)=>{
+    try{
+      const response=await fetch('/api/cart',{
+        method:"POST",
+        body:JSON.stringify({userId:user.id,productId:id}),
+        headers:{
+          "Content-Type":"application/json"
+        }
+      })
+      if(!response.ok){
+        throw new Error("Failed to add item to cart, try again!")
+      }
+      const result=await response.json()
+      alert("Item added to cart!")
+    }
+    catch(error){
+      setErrorMessage(error.message)
+    }
+  }
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -37,8 +58,10 @@ const ProductList = () => {
             <div key={product.id} className="border rounded-lg overflow-hidden shadow-md">
               <div className="p-4">
                 <h2 className="text-xl font-semibold">{product.title}</h2>
-                
-                <p className="text-lg font-bold">₹ {product.price}</p>
+                <div className='flex justify-between'>
+                  <p className="text-lg font-bold">₹ {product.price}</p>
+                  <button className='border-2 rounded-md p-2' onClick={()=>{handleCart(product.id)}}>Add to Cart</button>
+                </div>
               </div>
               <div className="h-48 w-full bg-black flex items-center justify-center">
                 <Carousel showThumbs={false} showStatus={false}>

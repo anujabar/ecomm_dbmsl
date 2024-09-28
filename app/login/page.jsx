@@ -12,9 +12,6 @@ const Login = () => {
     const handleSubmit=async (e)=>{
         e.preventDefault()
         await login(email,password)
-        if(user){
-            redirect('/')
-        }
     }
     useEffect(()=>{
         if(user){
