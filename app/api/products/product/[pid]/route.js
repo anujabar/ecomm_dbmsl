@@ -16,5 +16,26 @@ export async function DELETE(req,{params}) {
         return NextResponse.json({message: "Failed to delete product"}, {status: 500})
 
     }
+}
+
+export async function PUT(req, {params}) {
+    const {pid}=params
+    const body = await req.json()
+    try{
+        if (!productId) {
+            return NextResponse.json({ message: "Product ID is required" }, { status: 400 });
+          }
+      
+          await db.update(products)
+            .set({
+             
+            })
+            .where(eq(products.id, Number(productId)));
+      
+          return NextResponse.json({ message: "Product updated successfully" }, { status: 200 });
+        } catch (error) {
+          console.error("Error updating product:", error);
+          return NextResponse.json({ message: "Failed to update product", error: error.message }, { status: 500 });
+        }
     
 }
