@@ -20,3 +20,10 @@ export const products = pgTable("products", {
     images: json("images").notNull(), 
     createdAt: timestamp("created_at").defaultNow(),  
   });
+
+  export const cart=pgTable("cart",{
+    id:serial("id").primaryKey(),
+    userId:integer("userId").notNull(),
+    productId:integer("productId").notNull().unique(),
+    quantity:integer("quantity").notNull()
+})
