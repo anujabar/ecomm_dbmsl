@@ -15,7 +15,7 @@ export default function ProductCard({product}) {
           </div>
         </div>
         <div className="h-48 w-full bg-black flex items-center justify-center">
-          <Carousel showThumbs={false} showStatus={false}>
+          {/* <Carousel showThumbs={true} showStatus={false}>
             {images.map((url, index) => (
               <div key={index} className="h-full flex items-center justify-center">
                 <img
@@ -25,7 +25,7 @@ export default function ProductCard({product}) {
                 />
               </div>
             ))}
-          </Carousel>
+          </Carousel> */}
         </div>
       </div>
 );

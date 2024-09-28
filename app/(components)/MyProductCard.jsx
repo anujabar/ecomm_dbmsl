@@ -2,7 +2,7 @@ import { useRouter } from 'next/navigation';
 import React from 'react'
 import { Carousel } from 'react-responsive-carousel';
 
-export default function ProductCard({product}) {
+export default function MyProductCard({product}) {
     console.log(product)
     const images = product.images.split(',');
     const router = useRouter()
@@ -39,7 +39,7 @@ export default function ProductCard({product}) {
           </div>
         </div>
         <div className="h-48 w-full bg-black flex items-center justify-center">
-          <Carousel showThumbs={false} showStatus={false}>
+          {/* <Carousel showThumbs={false} showStatus={false}>
             {images.map((url, index) => (
               <div key={index} className="h-full flex items-center justify-center">
                 <img
@@ -49,7 +49,7 @@ export default function ProductCard({product}) {
                 />
               </div>
             ))}
-          </Carousel>
+          </Carousel> */}
         </div>
         <div className="flex justify-between">
         <button onClick={handleEdit} className="bg-blue-500 text-white px-4 py-2 rounded-md">

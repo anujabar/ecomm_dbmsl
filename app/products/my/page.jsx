@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Carousel } from 'react-responsive-carousel';
 import ProductCard from '@/app/(components)/ProductCard';
+import MyProductCard from '@/app/(components)/MyProductCard';
 
 const MyProducts = () => {
   const { user } = useAuthContext();
@@ -51,7 +52,8 @@ const MyProducts = () => {
         <h1 className="text-3xl font-bold mb-4">Products</h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {products.map((product, ind) => {
-            return <ProductCard product={product} key={ind}/>
+            
+            return <MyProductCard product={product} key={ind}/>
           })}
         </div>
       </div>
