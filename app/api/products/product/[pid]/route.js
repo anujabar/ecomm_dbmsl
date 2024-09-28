@@ -22,7 +22,7 @@ export async function PUT(req, {params}) {
     const {pid}=params
     const body = await req.json()
     try{
-        if (!productId) {
+        if (!pid) {
             return NextResponse.json({ message: "Product ID is required" }, { status: 400 });
           }
       
@@ -30,7 +30,7 @@ export async function PUT(req, {params}) {
             .set({
              
             })
-            .where(eq(products.id, Number(productId)));
+            .where(eq(products.id, Number(pid)));
       
           return NextResponse.json({ message: "Product updated successfully" }, { status: 200 });
         } catch (error) {
