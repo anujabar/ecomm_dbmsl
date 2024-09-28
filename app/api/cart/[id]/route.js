@@ -19,7 +19,7 @@ export async function GET(req,{params}){
               .select()
               .from(products)
               .where(eq(products.id, r.productId));
-      
+            
             const { id, title, price, images,quantity:available} = res[0];
             prodDet.push({ id:r.id,productId:id, title, price, images, quantity: r.quantity,available});
           }

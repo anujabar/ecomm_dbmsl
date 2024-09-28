@@ -1,9 +1,30 @@
 import React from 'react'
 import { Carousel } from 'react-responsive-carousel';
+import { useAuthContext } from '../(hooks)/useAuthContext';
 
 export default function ProductCard({product}) {
     console.log(product)
     const images = product.images.split(',');
+    const {user}=useAuthContext()
+    const handleCart=async (id)=>{
+        try{
+          const response=await fetch('/api/cart',{
+            method:"POST",
+            body:JSON.stringify({userId:user.id,productId:id}),
+            headers:{
+              "Content-Type":"application/json"
+            }
+          })
+          if(!response.ok){
+            throw new Error("Failed to add item to cart, try again!")
+          }
+          const result=await response.json()
+          alert("Item added to cart!")
+        }
+        catch(error){
+          setErrorMessage(error.message)
+        }
+      }
 
     return (
       <div key={product.id} className="border rounded-lg overflow-hidden shadow-md">
