@@ -32,8 +32,8 @@ export default function MyProductCard({ product }) {
     };
   
     const handleCloseModal = () => {
-      setIsEditModalOpen(false); // Close the modal
-      setSelectedProduct(null); // Clear selected product
+      setIsEditModalOpen(false);
+      setSelectedProduct(null);
     };
   
     const handleSave = async (updatedProduct) => {

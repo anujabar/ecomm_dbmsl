@@ -10,7 +10,10 @@ export async function GET(req, {params}) {
     try{
         const p = await db.select().from(products).where(eq(products.seller,Number(user_id)))
         console.log(p)
-        return NextResponse.json({products:p}, {status: 200})
+        return NextResponse.json({products:p}, {status: 200,headers: {
+            'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+            'Pragma': 'no-cache',
+            'Expires': '0'}})
     }catch(e){
         return NextResponse.json({message: "Falsed to fetch products", e})
     }
