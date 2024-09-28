@@ -6,7 +6,6 @@ import { useAuthContext } from '@/app/(hooks)/useAuthContext';
 
 const Page = () => {
   const {user, dispatch} = useAuthContext()
-  console.log(user)
   const router = useRouter()
   const [title, setTitle] = useState('');
   const [price, setPrice] = useState('');
@@ -138,6 +137,7 @@ const Page = () => {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             required
+            className='w-full resize-none h-20 border-gray-800'
           ></textarea>
         </div>
         <div>
