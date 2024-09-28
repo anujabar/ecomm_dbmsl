@@ -18,6 +18,7 @@ export const products = pgTable("products", {
     stars: integer("stars").notNull().default(0), 
     quantity: integer("quantity").notNull(), 
     images: json("images").notNull(), 
+    seller: integer("seller").notNull(),
     createdAt: timestamp("created_at").defaultNow(),  
   });
 

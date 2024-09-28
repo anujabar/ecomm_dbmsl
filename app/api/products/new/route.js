@@ -48,6 +48,7 @@ export async function POST(req) {
     const salePercentage = formData.get('salePercentage');
     const quantity = formData.get('quantity');
     const description = formData.get('description');
+    const seller = formData.get('seller')
   
     const images = formData.getAll('images'); // Handles multiple files
   
@@ -67,6 +68,7 @@ export async function POST(req) {
         salePercentage: parseFloat(salePercentage) || 0,
         stars: 0,
         quantity: parseInt(quantity) || 0,
+        seller,
         description,
       });
   
