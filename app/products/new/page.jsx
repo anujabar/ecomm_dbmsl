@@ -1,11 +1,13 @@
 "use client"
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 import { useAuthContext } from '@/app/(hooks)/useAuthContext';
 
 
-const ProductForm = () => {
-  const user = useAuthContext()
+const Page = () => {
+  const {user, dispatch} = useAuthContext()
+  console.log(user)
+  const router = useRouter()
   const [title, setTitle] = useState('');
   const [price, setPrice] = useState('');
   const [category, setCategory] = useState('');
@@ -17,15 +19,16 @@ const ProductForm = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
 
-  const router = useRouter();
-
-  useEffect(() => {
-    console.log(user.user)
-    if (!user.user) {
-      router.push('/login');
+  useEffect(()=>{
+    console.log(user)
+    if (!user){
+      router.push("/login")
     }
-  }, []);
-
+    else{
+      router.push('/products/new')
+    }
+  },[user])
+  
   const handleImageChange = (e) => {
     setImages(Array.from(e.target.files));
   };
@@ -155,4 +158,4 @@ const ProductForm = () => {
   );
 };
 
-export default ProductForm;
+export default Page;
