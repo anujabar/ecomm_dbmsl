@@ -1,5 +1,6 @@
 import db from "@/db/PrismaClient";
 import { NextResponse } from "next/server";
+import { authMiddleware } from "@/app/(middleware)/auth";
 
 export async function DELETE(req,{params}) {
     const {pid} = params
