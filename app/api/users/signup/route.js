@@ -18,8 +18,8 @@ const signupFunc=async(email,password,role)=>{
         throw new Error("All fields are required");
     }
     
-    const existingUser =await db.query.users.findFirst({
-        where:eq(users.email,email)
+    const existingUser =await db.user.findFirst({
+        where:{email : email}
     })
 
     if (existingUser) {
@@ -35,8 +35,13 @@ const signupFunc=async(email,password,role)=>{
 
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(password, salt);
-
-    const [newUser] = await db.insert(users).values({ email, password: hash ,role:role}).returning();
+    const newUser = await db.user.create({
+        data:{
+            email,
+            password: hash,
+            role: role
+        }
+    })
     
     return newUser;
 }
