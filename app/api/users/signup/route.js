@@ -2,9 +2,9 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import validator from "validator"
-import { users } from "@/db/Schema.js";
+
 import db from "@/db/drizzle.js";
-import { eq } from 'drizzle-orm';
+
 import "dotenv/config"
 
 

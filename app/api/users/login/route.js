@@ -3,10 +3,8 @@ import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import validator from "validator"
 import db from "@/db/PrismaClient";
-// import db from "@/db/drizzle.js";
-import { eq } from 'drizzle-orm';
 import "dotenv/config"
-import { users } from "@/db/Schema";
+
 
 const createToken=(id)=>{
     return jwt.sign({id:id},process.env.SECRET,{expiresIn:"3d"})

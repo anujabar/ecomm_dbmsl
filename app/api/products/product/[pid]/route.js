@@ -1,6 +1,4 @@
-import db from "@/db/drizzle";
-import { products } from "@/db/Schema";
-import { eq } from "drizzle-orm";
+import db from "@/db/PrismaClient";
 import { NextResponse } from "next/server";
 
 export async function DELETE(req,{params}) {
@@ -9,7 +7,11 @@ export async function DELETE(req,{params}) {
         if(!pid){
             return NextResponse.json({message: "Product Id missing"}, {status: 400})
         }
-        await db.delete(products).where(eq(products.id, Number(pid)))
+        await db.product.delete({
+            where:{
+                id: Number(pid)
+            }
+        })
         return NextResponse.json({message: "Product deleted Successfully"}, {status: 200})
     }catch(e){
         console.log("error deleting product: ", e)
@@ -27,19 +29,20 @@ export async function PUT(req, {params}) {
             return NextResponse.json({ message: "Product ID is required" }, { status: 400 });
           }
           
-          const result = await db.update(products)
-            .set({
-             title: title,
-             description: description, 
-             price: price, category: category,
-             salePercentage: salePercentage,
-            quantity: quantity
+          const result = await db.product.update({
+            where: {
+                id: Number(pid)
+            },
+            data:{
+                title: title,
+                description: description, 
+                price: price, category: category,
+                salePercentage: salePercentage,
+                quantity: quantity
+            }
             })
-            .where(eq(products.id, Number(pid)));
-            const updatedProduct = await db.select().from(products).where(eq(products.id, Number(pid)));
-
+        
             console.log(result)
-            console.log(updatedProduct)
             return NextResponse.json({ message: "Product updated successfully" }, { status: 200 });
         } catch (error) {
           console.error("Error updating product:", error);

@@ -1,7 +1,6 @@
-import db from "@/db/drizzle";
+import db from "@/db/PrismaClient";
 import { bucket } from "@/db/firebase";
 import { NextResponse } from "next/server";
-import { products } from "@/db/Schema.js";
 import { v4 as uuidv4 } from 'uuid';
 
 
@@ -60,7 +59,8 @@ export async function POST(req) {
       const uploadPromises = images.map(uploadImage);
       const imageUrls = await Promise.all(uploadPromises);
   
-      const result = await db.insert(products).values({
+      const result = await db.product.create({
+        data:{
         title,
         price,
         images: imageUrls.join(','), 
@@ -68,9 +68,9 @@ export async function POST(req) {
         salePercentage: parseFloat(salePercentage) || 0,
         stars: 0,
         quantity: parseInt(quantity) || 0,
-        seller,
+        seller: Number(seller),
         description,
-      });
+    }});
   
       return NextResponse.json({ message: 'Product uploaded successfully', productId: result.id }, { status: 200 });
     } catch (error) {

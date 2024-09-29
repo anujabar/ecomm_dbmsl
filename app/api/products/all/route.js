@@ -1,10 +1,9 @@
-import db from "@/db/drizzle";
-import { products } from "@/db/Schema";
+import db from "@/db/PrismaClient";
 import { NextResponse } from "next/server";
 
 export async function GET(req){
     try{
-        const allProducts = await db.select().from(products)
+        const allProducts = await db.product.findMany()
         console.log(allProducts)
         return NextResponse.json({products:allProducts}, {status: 200,headers: {
             'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
