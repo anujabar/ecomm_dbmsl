@@ -2,10 +2,11 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import validator from "validator"
-import {users} from "../../../../db/Schema.js/index.js"
-import db from "@/db/drizzle.js";
+import db from "@/db/PrismaClient";
+// import db from "@/db/drizzle.js";
 import { eq } from 'drizzle-orm';
 import "dotenv/config"
+import { users } from "@/db/Schema";
 
 const createToken=(id)=>{
     return jwt.sign({id:id},process.env.SECRET,{expiresIn:"3d"})
@@ -17,9 +18,11 @@ const loginFunc=async(email,password)=>{
         throw new Error("All fields are required");
       }
     
-      const user =await db.query.users.findFirst({
-        where:eq(users.email,email)
-      })
+      const user = await db.user.findFirst({
+        where: {
+          email: email
+        }
+      });
     
       if (!user) {
         throw new Error("Invalid Email");

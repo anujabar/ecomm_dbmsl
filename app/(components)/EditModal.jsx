@@ -52,7 +52,6 @@ const EditModal = ({ product, onClose, onSave }) => {
     }));
   };
 
-  // Handle form submission
   const handleSave = async () => {
     if (!formData.title || !formData.price) {
       setErrorMessage('Title and Price are required fields');
@@ -61,7 +60,7 @@ const EditModal = ({ product, onClose, onSave }) => {
     
     const updatedProduct = { ...product, ...formData };
     try {
-      await onSave(updatedProduct);  // Trigger the save action
+      await onSave(updatedProduct); 
       setSuccessMessage('Product updated successfully');
       onClose();
     } catch (error) {
