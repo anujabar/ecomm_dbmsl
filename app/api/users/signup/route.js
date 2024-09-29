@@ -3,8 +3,7 @@ import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import validator from "validator"
 
-import db from "@/db/drizzle.js";
-
+import db from "@/db/PrismaClient";
 import "dotenv/config"
 
 
@@ -17,8 +16,8 @@ const signupFunc=async(email,password,role)=>{
     if (!email || !password) {
         throw new Error("All fields are required");
     }
-    
-    const existingUser =await db.user.findFirst({
+  
+    const existingUser =await db.user.findUnique({
         where:{email : email}
     })
 
@@ -49,7 +48,6 @@ const signupFunc=async(email,password,role)=>{
 export async function POST(req){
     try{
         const {email,password,role}=await req.json()
-        console.log("EP:",email,password,role)
         const user= await signupFunc(email,password,role)
         console.log("USER:",user)
         const token=createToken(user.id)

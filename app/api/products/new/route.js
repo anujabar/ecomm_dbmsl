@@ -58,12 +58,12 @@ export async function POST(req) {
     try {
       const uploadPromises = images.map(uploadImage);
       const imageUrls = await Promise.all(uploadPromises);
-  
+      
       const result = await db.product.create({
         data:{
         title,
-        price,
-        images: imageUrls.join(','), 
+        price: parseFloat(price),
+        images: imageUrls, 
         category,
         salePercentage: parseFloat(salePercentage) || 0,
         stars: 0,
