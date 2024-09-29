@@ -17,7 +17,8 @@ const ProductList = () => {
         method:"POST",
         body:JSON.stringify({userId:user.id,productId:id}),
         headers:{
-          "Content-Type":"application/json"
+          "Content-Type":"application/json",
+          "Authorization": `Bearer ${user.token}`
         }
       })
       if(!response.ok){

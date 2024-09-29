@@ -1,10 +1,9 @@
 import jwt from 'jsonwebtoken'
 import { NextResponse } from 'next/server'
 
-export const authMiddleware=(handler)=>async(req,res)=>{
-    console.log(req.headers['authorization'])
-    const token = req.headers.authorization?.split(" ")[1]
-
+export const authMiddleware=(handler)=>async(req,res)=>{ 
+    
+    const token = req.headers.get('authorization')?.split(" ")[1]
     console.log(token)
     if (!token){
         return NextResponse.json({error: 'Unauthorized'}, {status: 401})

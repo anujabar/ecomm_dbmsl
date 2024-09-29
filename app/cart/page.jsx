@@ -11,7 +11,11 @@ const Cart = () => {
     useEffect(()=>{
         const getCartItems=async ()=>{
             try{
-                const response=await fetch(`/api/cart/${user.id}`)
+                const response=await fetch(`/api/cart/${user.id}`,{
+                  headers:{
+                    'Authorization' : `Bearer ${user.token}`
+                  }
+                })
                 if(!response.ok){
                     throw new Error("Could not fetch cart items!")
                 }

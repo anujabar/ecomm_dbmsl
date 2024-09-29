@@ -74,9 +74,7 @@ export default function MyProductCard({ product }) {
           <h2 className="text-xl font-semibold">{product.title}</h2>
           <div className="flex justify-between">
             <p className="text-lg font-bold">₹ {product.price}</p>
-            <button className="border-2 rounded-md p-2" onClick={() => handleCart(product.id)}>
-              Add to Cart
-            </button>
+            
           </div>
         </div>
         <div className="h-48 w-full bg-black flex items-center justify-center">

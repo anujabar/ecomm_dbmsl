@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server"
 import db from "@/db/PrismaClient";
+import { authMiddleware } from "@/app/(middleware)/auth";
 
-export async function POST(req){
+const handleAdd=async(req)=>{
     try{
         const {userId,productId}=await req.json()
         await db.cart.create({
@@ -17,3 +18,5 @@ export async function POST(req){
         return NextResponse.json({error:error.message},{status:500})
     }
 }
+
+export const POST = authMiddleware(handleAdd)

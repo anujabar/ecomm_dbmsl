@@ -1,3 +1,4 @@
+import { authMiddleware } from "@/app/(middleware)/auth";
 import db from "@/db/PrismaClient";
 import { bucket } from "@/db/firebase";
 import { NextResponse } from "next/server";
@@ -38,7 +39,9 @@ const uploadImage = async (file) => {
     });
   };
   
-export async function POST(req) {
+
+
+  const handlePost = async(req)=> {
     const formData = await req.formData();
     console.log(formData)
     const title = formData.get('title');
@@ -78,3 +81,5 @@ export async function POST(req) {
       return NextResponse.json({ message: 'Failed to upload images and create product', error: error.message }, { status: 500 });
     }
   }
+
+export const POST = authMiddleware(handlePost)

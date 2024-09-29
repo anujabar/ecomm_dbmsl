@@ -1,13 +1,18 @@
 import React, { useState } from 'react'
 import { Carousel } from 'react-responsive-carousel';
 import { MdDelete } from "react-icons/md";
+import { useAuthContext } from '../(hooks)/useAuthContext';
 
 const CartCard = ({item}) => {
     const [quan,setQuan]=useState(item.quantity)
+    const {user}= useAuthContext()
     const handleDelete=async ()=>{
         try{
             await fetch(`/api/cart/${item.id}`,{
-                method:"DELETE"
+                method:"DELETE",
+                headers:{
+                  'Authorization': `Bearer ${user.token}`
+                }
             })
             window.location.reload()
         }
@@ -26,7 +31,8 @@ const CartCard = ({item}) => {
                 method:"PUT",
                 body:JSON.stringify({quan:e.target.value}),
                 headers:{
-                    "Content-Type":"application/json"
+                    "Content-Type":"application/json",
+                    "Authorization": `Bearer ${user.token}`
                 }
             })
         }

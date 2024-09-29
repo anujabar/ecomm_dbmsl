@@ -1,8 +1,9 @@
+import { authMiddleware } from "@/app/(middleware)/auth";
 import db from "@/db/PrismaClient";
 import { NextResponse } from "next/server";
 
 
-export async function GET(req, {params}) {
+const getProducts = async(req, {params})=> {
     const {user_id} = params
     console.log(user_id)
     try{
@@ -20,3 +21,5 @@ export async function GET(req, {params}) {
         return NextResponse.json({message: "Falsed to fetch products", e})
     }
 } 
+
+export const GET=authMiddleware(getProducts)

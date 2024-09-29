@@ -53,6 +53,9 @@ const Page = () => {
     try {
       const response = await fetch('/api/products/new', {
         method: 'POST',
+        headers:{
+          'Authorization': `Bearer ${user.token}`
+        },
         body: formData,
       });
 

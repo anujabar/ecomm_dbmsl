@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server"
-import { cart,products } from "@/db/Schema.js";
 import db from "@/db/PrismaClient";
+import { authMiddleware } from "@/app/(middleware)/auth";
 
 
 
-export async function GET(req,{params}){
+const getCart = async(req,{params})=>{
     const {id}=params
     try{
         const result = await db.cart.findMany({
@@ -35,7 +35,7 @@ export async function GET(req,{params}){
     }
 }
 
-export async function PUT(req,{params}){
+const updateCart=async(req,{params})=>{
     const {id:idc}=params
     try{
         const {quan}=await req.json()
@@ -50,8 +50,10 @@ export async function PUT(req,{params}){
             },
         })
         console.log(u)
-        
         return NextResponse.json({message:"Success"},{status:201})
+    }
+    else{
+
     }
     }
     catch(error){
@@ -60,7 +62,7 @@ export async function PUT(req,{params}){
     }
 }
 
-export async function DELETE(req,{params}){
+const deleteCart=async(req,{params})=>{
     const {id:idc}=params
     try{
         await db.cart.delete({
@@ -76,3 +78,7 @@ export async function DELETE(req,{params}){
         return NextResponse.json({error:error.message},{status:500})
     }
 }
+
+export const GET = authMiddleware(getCart)
+export const PUT = authMiddleware(updateCart)
+export const DELETE = authMiddleware(deleteCart)
