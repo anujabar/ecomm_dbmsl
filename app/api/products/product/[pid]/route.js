@@ -2,7 +2,8 @@ import db from "@/db/PrismaClient";
 import { NextResponse } from "next/server";
 import { authMiddleware } from "@/app/(middleware)/auth";
 
-export async function DELETE(req,{params}) {
+
+const deleteHandler = async(req,{params})=> {
     const {pid} = params
     try{
         if(!pid){
@@ -21,7 +22,7 @@ export async function DELETE(req,{params}) {
     }
 }
 
-export async function PUT(req, {params}) {
+const updateHandler = async(req, {params}) =>{
     const {pid}=params
     const {title, description, price, category, salePercentage, quantity} = await req.json()
     console.log(title, description, price, category, salePercentage, quantity)
@@ -51,3 +52,6 @@ export async function PUT(req, {params}) {
         }
     
 }
+
+export const DELETE = authMiddleware(deleteHandler)
+export const PUT = authMiddleware(updateHandler)

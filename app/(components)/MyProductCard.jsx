@@ -1,22 +1,33 @@
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Carousel } from 'react-responsive-carousel';
 import EditModal from './EditModal';
+import { useAuthContext } from '../(hooks)/useAuthContext';
 
 export default function MyProductCard({ product }) {
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState(null);
+    const {user}=useAuthContext()
+   
   
     const handleEdit = () => {
       setSelectedProduct(product); // Set the product to be edited
       setIsEditModalOpen(true); // Open the modal
     };
+    useEffect(() => {
+      console.log("User updated:", user);
+    }, [user]);
   
     const handleDelete = async () => {
       if (window.confirm('Are you sure you want to delete this product?')) {
         try {
           const response = await fetch(`/api/products/product/${product.id}`, {
             method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${user.token}` // Include the token in the Authorization header
+          }
+            
           });
   
           if (!response.ok) {
@@ -37,11 +48,13 @@ export default function MyProductCard({ product }) {
   
     const handleSave = async (updatedProduct) => {
       try {
+        console.log(user)
         const response = await fetch(`/api/products/product/${updatedProduct.id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
-          },
+            'Authorization': `Bearer ${user.token}` // Include the token in the Authorization header
+        },
           body: JSON.stringify(updatedProduct),
         });
   
