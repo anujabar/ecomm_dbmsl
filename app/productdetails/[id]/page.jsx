@@ -14,11 +14,12 @@ const ProductDetails = ({params}) => {
             try{
                 const response=await fetch(`/api/products/product/${id}`)
                 const result=await response.json()
-                setImages(result.product[0].images)
-                setYellow(result.product[0].stars)
-                setWhite(5-result.product[0].stars)
+                console.log(result)
+                setImages(result.product.images)
+                setYellow(result.product.stars)
+                setWhite(5-result.product.stars)
                 console.log(white,yellow)
-                setProduct(result.product[0])
+                setProduct(result.product)
             }
             catch(error){
                 console.log(error.message)
