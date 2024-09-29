@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { Carousel } from 'react-responsive-carousel';
 import { MdDelete } from "react-icons/md";
 import { useAuthContext } from '../(hooks)/useAuthContext';
+import Link from 'next/link';
+
 
 const CartCard = ({item}) => {
     const [quan,setQuan]=useState(item.quantity)
@@ -41,7 +43,7 @@ const CartCard = ({item}) => {
         <div key={item.id} className="border rounded-lg overflow-hidden shadow-md">
         <div className="p-4">
           <div className='flex justify-between'>
-            <h2 className="text-xl font-semibold">{item.title}</h2>
+            <Link href={`/productdetails/${item.productId}`}><h2 className="text-xl font-semibold">{item.title}</h2></Link>
             <MdDelete size={20} onClick={handleDelete}/>
           </div>
           <div className='flex justify-between'>

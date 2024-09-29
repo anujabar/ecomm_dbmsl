@@ -23,7 +23,11 @@ const MyProducts = () => {
 
   const fetchUserProducts = async () => {
     try {
-      const response = await fetch(`/api/products/${user.id}`); 
+      const response = await fetch(`/api/products/${user.id}`,{
+        headers:{
+          "Authorization": `Bearer ${user.token}`
+        }
+      }); 
       if (!response.ok) {
         throw new Error('Failed to fetch products');
       }

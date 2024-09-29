@@ -53,5 +53,21 @@ const updateHandler = async(req, {params}) =>{
     
 }
 
+export async function GET(req,{params}){
+    const {pid}=params
+    try{
+        const result = await db.product.findFirst({
+            where: {
+                id: Number(pid)
+            }
+        })
+        console.log(result)
+        return NextResponse.json({product: result}, {status: 201})
+    }catch(e){
+        console.log("Error fetching product: ", e)
+        return NextResponse.json({error: e.message}, {status: 500})
+    }
+}
+
 export const DELETE = authMiddleware(deleteHandler)
 export const PUT = authMiddleware(updateHandler)

@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react'
 import { Carousel } from 'react-responsive-carousel';
 import EditModal from './EditModal';
 import { useAuthContext } from '../(hooks)/useAuthContext';
+import Link from 'next/link';
+
 
 export default function MyProductCard({ product }) {
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -71,7 +73,7 @@ export default function MyProductCard({ product }) {
     return (
       <div key={product.id} className="border rounded-lg overflow-hidden shadow-md">
         <div className="p-4">
-          <h2 className="text-xl font-semibold">{product.title}</h2>
+          <Link href={`/productdetails/${product.id}`}><h2 className="text-xl font-semibold">{product.title}</h2></Link>
           <div className="flex justify-between">
             <p className="text-lg font-bold">₹ {product.price}</p>
             
