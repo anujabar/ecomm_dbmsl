@@ -4,7 +4,6 @@ import { Carousel } from 'react-responsive-carousel';
 import EditModal from './EditModal';
 
 export default function MyProductCard({ product }) {
-    const images = product.images.split(',');
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState(null);
   
@@ -69,7 +68,7 @@ export default function MyProductCard({ product }) {
         </div>
         <div className="h-48 w-full bg-black flex items-center justify-center">
           {/* <Carousel showThumbs={false} showStatus={false}>
-            {images.map((url, index) => (
+            {product.images.map((url, index) => (
               <div key={index} className="h-full flex items-center justify-center">
                 <img
                   src={url}

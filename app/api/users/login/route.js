@@ -16,7 +16,7 @@ const loginFunc=async(email,password)=>{
         throw new Error("All fields are required");
       }
     
-      const user = await db.user.findFirst({
+      const user = await db.user.findUnique({
         where: {
           email: email
         }

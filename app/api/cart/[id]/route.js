@@ -9,7 +9,7 @@ export async function GET(req,{params}){
     try{
         const result = await db.cart.findMany({
             where:{
-                userId: id
+                userId: parseInt(id)
             }
         })
         
@@ -21,8 +21,8 @@ export async function GET(req,{params}){
                     id: r.productId
                 }
             })
-            
-            const { id, title, price, images,quantity:available} = res[0];
+            console.log(res)
+            const { id, title, price, images,quantity:available} = res;
             prodDet.push({ id:r.id,productId:id, title, price, images, quantity: r.quantity,available});
           }
 
@@ -39,12 +39,20 @@ export async function PUT(req,{params}){
     const {id:idc}=params
     try{
         const {quan}=await req.json()
-        await db
-        .update(cart)
-        .set({quantity:quan}) 
-        .where(eq(cart.id,idc)); 
+        console.log(quan)
+        if (quan){
+        const u = await db.cart.update({
+            where:{
+                id: parseInt(idc)
+            },
+            data:{
+                quantity: parseInt(quan)
+            },
+        })
+        console.log(u)
         
         return NextResponse.json({message:"Success"},{status:201})
+    }
     }
     catch(error){
         console.log("ERROR:",error)
@@ -55,9 +63,11 @@ export async function PUT(req,{params}){
 export async function DELETE(req,{params}){
     const {id:idc}=params
     try{
-        await db
-      .delete(cart)
-      .where(eq(cart.id, idc));
+        await db.cart.delete({
+            where:{
+                id: parseInt(idc)
+            }
+        })
         
         return NextResponse.json({message:"Success"},{status:201})
     }

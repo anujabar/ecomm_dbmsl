@@ -4,7 +4,6 @@ import { MdDelete } from "react-icons/md";
 
 const CartCard = ({item}) => {
     const [quan,setQuan]=useState(item.quantity)
-    const images = item.images.split(',');
     const handleDelete=async ()=>{
         try{
             await fetch(`/api/cart/${item.id}`,{
@@ -43,13 +42,13 @@ const CartCard = ({item}) => {
             <p className="text-lg font-bold">₹ {item.price}</p>
             <div className='flex flex-col'>
                 <label>Quantity</label>
-                <input type='text' value={quan} className='w-12 h-2' onChange={(e)=>{changeQuan(e,item.available)}}/>
+                <input type='number' value={quan} className='w-12 h-2' onChange={(e)=>{changeQuan(e,item.available)}}/>
             </div>
           </div>
         </div>
-        {/* <div className="h-48 w-full bg-black flex items-center justify-center">
-                <Carousel showThumbs={false} showStatus={false}>
-                  {images.map((url, index) => (
+        <div className="h-48 w-full bg-black flex items-center justify-center">
+                {/* <Carousel showThumbs={false} showStatus={false}>
+                  {item.images.map((url, index) => (
                     <div key={index} className="h-full flex items-center justify-center">
                       <img
                         src={url}
@@ -58,8 +57,8 @@ const CartCard = ({item}) => {
                       />
                     </div>
                   ))}
-                </Carousel>
-        </div> */}
+                </Carousel> */}
+        </div>
       </div>
   )
 }
