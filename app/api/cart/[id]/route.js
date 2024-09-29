@@ -1,24 +1,26 @@
 import { NextResponse } from "next/server"
 import { cart,products } from "@/db/Schema.js";
-import db from "@/db/drizzle.js";
-import { eq } from 'drizzle-orm';
+import db from "@/db/PrismaClient";
 
 
 
 export async function GET(req,{params}){
     const {id}=params
     try{
-        const result=await db
-        .select()
-        .from(cart)
-        .where(eq(cart.userId,id));  
+        const result = await db.cart.findMany({
+            where:{
+                userId: id
+            }
+        })
+        
         let prodDet=[]
         for (const r of result) {
             console.log(r)
-            const res = await db
-              .select()
-              .from(products)
-              .where(eq(products.id, r.productId));
+            const res = await db.product.findUnique({
+                where:{
+                    id: r.productId
+                }
+            })
             
             const { id, title, price, images,quantity:available} = res[0];
             prodDet.push({ id:r.id,productId:id, title, price, images, quantity: r.quantity,available});

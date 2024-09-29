@@ -1,12 +1,15 @@
 import { NextResponse } from "next/server"
-import { cart } from "@/db/Schema.js";
-import db from "@/db/drizzle.js";
-import { eq } from 'drizzle-orm';
+import db from "@/db/PrismaClient";
 
 export async function POST(req){
     try{
         const {userId,productId}=await req.json()
-        await db.insert(cart).values({ userId,productId,quantity:1}).returning();
+        await db.cart.create({
+            data: {
+                userId, productId, quantity:1
+            }
+        })
+
         return NextResponse.json({message:"Success"},{status:201})
     }
     catch(error){
