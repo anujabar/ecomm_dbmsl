@@ -117,3 +117,27 @@ form.signup, form.login {
   align-items: center;
   justify-content: space-between;
 }
+
+.chk-btn{
+  border: 0;
+  color: #fff;
+  padding: 10px;
+  font-family: "Poppins";
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 20px;
+  @apply bg-primary
+}
+
+.chk-btn-cont{
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.checkout_card{
+  background: #fff;
+  width: 100%;
+  border-radius: 4px;
+  text-align: center;
+}
