@@ -7,13 +7,17 @@ const Checkout = ({items}) => {
     try{
       await fetch(`/api/checkout/${user.id}`,{
         method:"POST",
-        body:JSON.stringify(items),
+        body:JSON.stringify({items}),
         headers:{
-          "Content-Type":"application/json"
+          "Content-Type":"application/json",
+          "Authorization": `Bearer ${user.token}`
         }
       })
       await fetch(`/api/checkout/${user.id}`,{
         method:"DELETE",
+        headers:{
+          "Authorization": `Bearer ${user.token}`
+        }
       })
     }
     catch(error){
@@ -45,7 +49,7 @@ const Checkout = ({items}) => {
         <h2>Total:₹ {total}</h2>
       </div>
     </div>
-    <div className='chk-btn-cont'><button className='chk-btn'>Proceed to pay</button></div>
+    <div className='chk-btn-cont'><button className='chk-btn' onClick={onConfirmOrder}>Proceed to pay</button></div>
     </>
   )
 }

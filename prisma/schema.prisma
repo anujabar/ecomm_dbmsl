@@ -41,6 +41,7 @@ model Product {
 
   sellerId      User      @relation(fields: [seller], references: [id]) // Relation to User
   cart          Cart[]     // Relation to Cart model
+  OrderItem     OrderItem[]
 }
 
 model Cart {
@@ -54,11 +55,19 @@ model Cart {
 }
 
 model Order {
-  id         Int      @id @default(autoincrement())
-  userId     Int
-  productId  Int[]      
-  quantity   Int[]
+  id       Int        @id @default(autoincrement())
+  userId   Int
+  user     User       @relation(fields: [userId], references: [id])
+  items    OrderItem[] // Relation to the join table
+}
 
-  user       User     @relation(fields: [userId], references: [id])
+model OrderItem {
+  id         Int      @id @default(autoincrement())
+  orderId    Int
+  productId  Int
+  quantity   Int
+
+  order      Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
 }
 

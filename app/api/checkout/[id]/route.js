@@ -9,19 +9,22 @@ const postCheckout = async(req,{params})=>{
     try{
         const data=await req.json()
         const items=data.items
-        let prodId=[]
-        let quan=[]
-        items.forEach((i)=>{
-            prodId.push(i.productId)
-            quan.push(i.quantity)
-        })
         const newOrder = await db.order.create({
             data:{
-                userId:idu,
-                productId:prodId,
-                quantity:quan,
-
+                userId:parseInt(idu)
             }
+        })
+        console.log("NO:",newOrder)
+        console.log(data)
+        const orderId=newOrder.id
+        items.forEach(async (i)=>{
+            const newOrder = await db.OrderItem.create({
+                data:{
+                    orderId,
+                    productId:i.productId,
+                    quantity:i.quantity
+                }
+            })
         })
         
         return NextResponse.json({message:"Success"},{status:201})
@@ -36,7 +39,7 @@ const postCheckout = async(req,{params})=>{
 const deleteCheckout=async(req,{params})=>{
     const {id:idu}=params
     try{
-        await db.cart.delete({
+        await db.cart.deleteMany({
             where:{
                 userId: parseInt(idu)
             }
