@@ -16,35 +16,11 @@ const Checkout = ({ items }) => {
     setTotal(t)
   }, [items])
 
-  const createOrder = async () => {
-    try {
-      const postResponse = await fetch(`/api/checkout/${user.id}`, {
-        method: "POST",
-        body: JSON.stringify({ items }),
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${user.token}`,
-        },
-      });
-
-      if (!postResponse.ok) {
-        throw new Error('Failed to create order after payment.');
-      }
-
-      console.log("Order created successfully.");
-    } catch (error) {
-      console.error("Error creating order:", error.message);
-    }
-  }
-
-  const handlePaymentSuccess = () => {
-    createOrder(); 
-  }
 
   return (
     <>
       {isPayment ? (
-        <Payment total={total} items={items} onPaymentSuccess={handlePaymentSuccess} />
+        <Payment total={total} items={items}  />
       ) : (
         <>
           <div className="flex justify-center items-center min-h-[60vh] bg-gray-100">

@@ -27,7 +27,7 @@ const postCheckout = async(req,{params})=>{
             })
         })
         
-        return NextResponse.json({message:"Success"},{status:201})
+        return NextResponse.json({message:"Success", orderId: orderId},{status:201})
     }
     catch(error){
         console.log("ERROR:",error)

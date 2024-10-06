@@ -60,6 +60,7 @@ model Order {
   userId   Int
   user     User       @relation(fields: [userId], references: [id])
   items    OrderItem[] // Relation to the join table
+  payment  Payment?
 }
 
 model OrderItem {
@@ -76,9 +77,11 @@ model Payment {
   id        Int      @id @default(autoincrement())
   userId    Int      
   amount    Float
+  orderId   Int?     @unique
   createdAt DateTime @default(now())
 
   customer      User      @relation(fields: [userId], references: [id])
+  orderDet     Order?     @relation(fields: [orderId], references: [id])
 }
 
 

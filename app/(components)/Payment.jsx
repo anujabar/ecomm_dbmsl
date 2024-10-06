@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 import { useAuthContext } from '../(hooks)/useAuthContext';
 import { useEffect, useState } from 'react';
 
-const Payment = ({ total, items , onPaymentSuccess}) => {
+const Payment = ({ total, items}) => {
   const { user } = useAuthContext();
   const [paymentStatus, setPaymentStatus] = useState('');
   const router = useRouter()
@@ -25,6 +25,38 @@ const Payment = ({ total, items , onPaymentSuccess}) => {
       if (!paymentResponse.ok) {
         throw new Error('Payment failed.');
       }
+      const {payment} = await paymentResponse.json()
+
+      
+
+      setPaymentStatus('Payment successful! Redirecting...');
+
+      const postResponse = await fetch(`/api/checkout/${user.id}`, {
+        method: "POST",
+        body: JSON.stringify({ items }),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${user.token}`,
+        },
+      });
+
+      if (!postResponse.ok) {
+        throw new Error('Failed to create order after payment.');
+      }
+      const {orderId} = await postResponse.json()
+      const updatePaymentResponse = await fetch(`/api/payment/${payment.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${user.token}`,
+        },
+        body: JSON.stringify({
+          orderId: orderId,
+        }),
+      });
+      if (!updatePaymentResponse.ok) {
+        throw new Error('Failed to update payment with order ID.');
+      }
 
       const deleteResponse = await fetch(`/api/checkout/${user.id}`, {
         method: "DELETE",
@@ -36,9 +68,8 @@ const Payment = ({ total, items , onPaymentSuccess}) => {
       if (!deleteResponse.ok) {
         throw new Error('Failed to delete the order.');
       }
-
-      setPaymentStatus('Payment successful! Redirecting...');
-      onPaymentSuccess();
+    
+      
       router.push('/products/all')
 
     } catch (error) {
