@@ -1,9 +1,11 @@
 import { authMiddleware } from "@/app/(middleware)/auth";
 import db from "@/db/PrismaClient";
+import { NextResponse } from "next/server";
 
 
-async function paymentHandler(req, res) {
-    const { userId, amount } = req.body;
+async function paymentHandler(req) {
+    const { userId, amount } = await req.json();
+    console.log(userId, amount)
     try {
       const payment = await db.payment.create({
         data: {
@@ -11,10 +13,12 @@ async function paymentHandler(req, res) {
           amount,
         },
       });
+      console.log(1)
 
-      res.status(201).json(payment);
+      return NextResponse.json({payment}, {status: 201})
+      
     } catch (error) {
-      res.status(500).json({ error: 'Failed to process payment' });
+        return NextResponse.json({error: "Failed to process payment"}, {status: 500})
     }
 }
 

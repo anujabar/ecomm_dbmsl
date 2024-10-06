@@ -5,7 +5,7 @@ import { useAuthContext } from '../(hooks)/useAuthContext';
 import Link from 'next/link';
 
 
-const CartCard = ({item}) => {
+const CartCard = ({item, updateQuantity, removeItem}) => {
     const [quan,setQuan]=useState(item.quantity)
     const {user}= useAuthContext()
     const handleDelete=async ()=>{
@@ -16,7 +16,8 @@ const CartCard = ({item}) => {
                   'Authorization': `Bearer ${user.token}`
                 }
             })
-            window.location.reload()
+            removeItem(item.id)
+            // window.location.reload()
         }
         catch(error){
             console.log(error.message)
@@ -37,6 +38,7 @@ const CartCard = ({item}) => {
                     "Authorization": `Bearer ${user.token}`
                 }
             })
+            updateQuantity(item.id, e.target.value)
         }
     }
     return (

@@ -32,13 +32,25 @@ const Cart = () => {
         if(user){
             getCartItems()
         }
-
     },[user])
+
+    const updateCartItemQuantity = (itemId, quantity) => {
+      setCartItems((prevItems) =>
+          prevItems.map((item) =>
+              item.id === itemId ? { ...item, quantity: quantity } : item
+          )
+      );
+   };
+
+    const removeCartItem = (itemId) => {
+      setCartItems((prevItems) => prevItems.filter(item => item.id !== itemId));
+    };
   return (
     <div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {!checkout && cartItems.length!==0 && cartItems.map((item)=>{
-          return <CartCard key={item.id} item={item}/>
+          return <CartCard key={item.id} item={item} updateQuantity={updateCartItemQuantity}
+          removeItem={removeCartItem}/>
         })}
       </div>
       {!checkout && <div className='chk-btn-cont'><button className='chk-btn' onClick={()=>{setCheckout(true)}}>Checkout</button></div>}
