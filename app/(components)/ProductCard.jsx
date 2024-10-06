@@ -33,7 +33,7 @@ export default function ProductCard({product}) {
           <Link href={`/productdetails/${product.id}`}><h2 className="text-xl font-semibold">{product.title}</h2></Link>
           <div className='flex justify-between'>
             <p className="text-lg font-bold">₹ {product.price}</p>
-            <button className='border-2 rounded-md p-2' onClick={()=>{handleCart(product.id)}}>Add to Cart</button>
+            {product.quantity>0? <button className='border-2 rounded-md p-2' onClick={()=>{handleCart(product.id)}}>Add to Cart</button> : <p className='border-2 rounded-md p-2 text-white bg-red-600 '>SOLD OUT</p>}
           </div>
         </div>
         <div className="h-48 w-full bg-black flex items-center justify-center">

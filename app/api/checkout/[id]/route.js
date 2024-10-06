@@ -26,6 +26,18 @@ const postCheckout = async(req,{params})=>{
                 }
             })
         })
+
+        items.forEach(async(i)=>{
+            console.log(i.productId, i.quantity)
+            await db.product.update({
+                where: {
+                    id: parseInt(i.productId)
+                },
+                data:{
+                    quantity: {decrement: parseInt(i.quantity)}
+                }
+            })
+        })
         
         return NextResponse.json({message:"Success", orderId: orderId},{status:201})
     }
