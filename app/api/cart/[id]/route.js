@@ -22,8 +22,8 @@ const getCart = async(req,{params})=>{
                 }
             })
             console.log(res)
-            const { id, title, price, images,quantity:available} = res;
-            prodDet.push({ id:r.id,productId:id, title, price, images, quantity: r.quantity,available});
+            const { id, title, price, images,quantity:available, salePercentage} = res;
+            prodDet.push({ id:r.id,productId:id, title, price, images, quantity: r.quantity,available, salePercentage});
           }
 
         console.log("Cart result:",prodDet)
