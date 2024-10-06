@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 import { useAuthContext } from '../(hooks)/useAuthContext';
 import { useEffect, useState } from 'react';
 
-const Payment = ({ total, items }) => {
+const Payment = ({ total, items , onPaymentSuccess}) => {
   const { user } = useAuthContext();
   const [paymentStatus, setPaymentStatus] = useState('');
   const router = useRouter()
@@ -38,6 +38,7 @@ const Payment = ({ total, items }) => {
       }
 
       setPaymentStatus('Payment successful! Redirecting...');
+      onPaymentSuccess();
       router.push('/products/all')
 
     } catch (error) {

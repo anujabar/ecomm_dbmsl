@@ -18,11 +18,11 @@ const postCheckout = async(req,{params})=>{
         console.log(data)
         const orderId=newOrder.id
         items.forEach(async (i)=>{
-            const newOrder = await db.OrderItem.create({
+            const newOrder = await db.orderItem.create({
                 data:{
                     orderId,
-                    productId:i.productId,
-                    quantity:i.quantity
+                    productId: parseInt(i.productId),
+                    quantity:parseInt(i.quantity)
                 }
             })
         })
