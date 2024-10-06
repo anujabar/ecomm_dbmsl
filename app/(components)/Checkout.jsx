@@ -11,7 +11,7 @@ const Checkout = ({ items }) => {
   useEffect(() => {
     let t = 0
     items.forEach((i) => {
-      t += (i.price * i.quantity)
+      t += ((i.price - (i.price * i.salePercentage/100)) * i.quantity)
     })
     setTotal(t)
   }, [items])
@@ -60,7 +60,7 @@ const Checkout = ({ items }) => {
                       <h3 className="text-lg font-medium">{i.title}</h3>
                       <p className="text-gray-600">Quantity: {i.quantity}</p>
                     </div>
-                    <p className="text-lg font-semibold">₹ {i.price}</p>
+                    <p className="text-lg font-semibold">₹ {i.price-(i.salePercentage/100*i.price)}</p>
                   </div>
                 ))}
               </div>
