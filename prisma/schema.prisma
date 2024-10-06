@@ -24,6 +24,7 @@ model User {
   cart     Cart[]   // Relation to Cart model
   products Product[]
   order    Order[] 
+  payments Payment[]
 }
 
 model Product {
@@ -73,10 +74,11 @@ model OrderItem {
 
 model Payment {
   id        Int      @id @default(autoincrement())
-  userId    Int
-  user      User     @relation(fields: [userId], references: [id])
+  userId    Int      
   amount    Float
   createdAt DateTime @default(now())
+
+  customer      User      @relation(fields: [userId], references: [id])
 }
 
 
