@@ -12,7 +12,7 @@ const createToken=(id)=>{
 }
 
 
-const signupFunc=async(email,password,role)=>{
+const signupFunc=async(email,password,role,address)=>{
     if (!email || !password) {
         throw new Error("All fields are required");
     }
@@ -38,7 +38,8 @@ const signupFunc=async(email,password,role)=>{
         data:{
             email,
             password: hash,
-            role: role
+            role: role,
+            address:address
         }
     })
     
@@ -47,11 +48,11 @@ const signupFunc=async(email,password,role)=>{
 
 export async function POST(req){
     try{
-        const {email,password,role}=await req.json()
-        const user= await signupFunc(email,password,role)
+        const {email,password,role,address}=await req.json()
+        const user= await signupFunc(email,password,role,address)
         console.log("USER:",user)
         const token=createToken(user.id)
-        return NextResponse.json({id:user.id,email:email,token:token},{status:201})
+        return NextResponse.json({id:user.id,email:email,address:address,token:token},{status:201})
     }
     catch(error){
         console.log(error)

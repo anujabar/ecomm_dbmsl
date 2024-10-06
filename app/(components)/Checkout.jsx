@@ -19,6 +19,9 @@ const Checkout = ({ items }) => {
 
   return (
     <>
+      <h2>Your address</h2>
+      <p>{user.address}</p>
+      <br/>
       {isPayment ? (
         <Payment total={total} items={items}  />
       ) : (

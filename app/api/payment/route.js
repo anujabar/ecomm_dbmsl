@@ -10,14 +10,15 @@ async function paymentHandler(req) {
       const payment = await db.payment.create({
         data: {
           userId,
-          amount,
-        },
+          amount
+        }
       });
       console.log(1)
 
       return NextResponse.json({payment}, {status: 201})
       
     } catch (error) {
+      console.log(error.message)
         return NextResponse.json({error: "Failed to process payment"}, {status: 500})
     }
 }

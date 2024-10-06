@@ -141,3 +141,14 @@ form.signup, form.login {
   border-radius: 4px;
   text-align: center;
 }
+
+.address-area{
+  display: block;
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}

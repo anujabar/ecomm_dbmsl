@@ -8,11 +8,12 @@ const Signup = () => {
     const [email,setEmail]=useState("")
     const [password,setPassword]=useState("")
     const [role,setRole]=useState("Buyer")
+    const [address,setAddress]=useState("")
     const {signup,error,isLoading}=useSignup() 
     const {user}=useAuthContext()
     const handleSubmit=async (e)=>{
         e.preventDefault()
-        await signup(email,password,role)
+        await signup(email,password,role,address)
     }
     useEffect(()=>{
         if(user){
@@ -30,6 +31,10 @@ const Signup = () => {
             <option value="Buyer">Buyer</option>
             <option value="Seller">Seller</option>
         </select>
+        {role=='Buyer' && <>
+        <label>Address</label>
+        <textarea className='address-area' onChange={(e)=>{setAddress(e.target.value)}}></textarea>
+        </>}
         <button disabled={isLoading}>Sign up</button>
         {error && <div className='error'>{error}</div>}
     </form>
