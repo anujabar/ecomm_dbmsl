@@ -4,53 +4,82 @@ import { useAuthContext } from '../(hooks)/useAuthContext'
 const Checkout = ({items}) => {
   const {user}=useAuthContext()
   const onConfirmOrder=async()=>{
-    try{
-      await fetch(`/api/checkout/${user.id}`,{
-        method:"POST",
-        body:JSON.stringify({items}),
-        headers:{
-          "Content-Type":"application/json",
-          "Authorization": `Bearer ${user.token}`
-        }
-      })
-      await fetch(`/api/checkout/${user.id}`,{
-        method:"DELETE",
-        headers:{
-          "Authorization": `Bearer ${user.token}`
-        }
-      })
+    try {
+      const postResponse = await fetch(`/api/checkout/${user.id}`, {
+        method: "POST",
+        body: JSON.stringify({ items }),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${user.token}`,
+        },
+      });
+    
+      if (!postResponse.ok) {
+        throw new Error('Failed to complete checkout.');
+      }
+    
+      const deleteResponse = await fetch(`/api/checkout/${user.id}`, {
+        method: "DELETE",
+        headers: {
+          "Authorization": `Bearer ${user.token}`,
+        },
+      });
+    
+      if (!deleteResponse.ok) {
+        throw new Error('Failed to delete the order.');
+      }
+    
+      console.log("Checkout completed and order deleted successfully.");
+    
+    } catch (error) {
+      console.error("Error during checkout process:", error.message);
+     
     }
-    catch(error){
-      console.log(error.message)
-    }
+    
   }
   const [total,setTotal]=useState(0)
   useEffect(()=>{
     let t=0
     items.forEach((i)=>{
-      t+=i.price
+      t+=(i.price * i.quantity)
     })
     setTotal(t)
   },[items])
   return (
     <>
-    <div className='flex justify-center'>
-      <div className='checkout_card'>
-          <h1>Your Order</h1>
-        <div>
-          {items.map((i)=>{
-              return <div key={i.id} className='checkout_item'>
-                  <h3>{i.title}</h3>
-                  <p>Quantity: {i.quantity}</p>
-                  <p>₹ {i.price}</p>
+  <div className="flex justify-center items-center min-h-screen bg-gray-100">
+    <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
+      <h1 className="text-2xl font-semibold mb-6 text-center">Your Order</h1>
+      <div className="space-y-4">
+        {items.map((i) => {
+          return (
+            <div
+              key={i.id}
+              className="checkout_item flex justify-between items-center bg-gray-50 p-4 rounded-lg shadow-sm"
+            >
+              <div>
+                <h3 className="text-lg font-medium">{i.title}</h3>
+                <p className="text-gray-600">Quantity: {i.quantity}</p>
               </div>
-          })}
-        </div>
-        <h2>Total:₹ {total}</h2>
+              <p className="text-lg font-semibold">₹ {i.price}</p>
+            </div>
+          );
+        })}
       </div>
+      <div className="border-t border-gray-200 my-4"></div>
+      <h2 className="text-xl font-semibold text-right">Total: ₹ {total}</h2>
     </div>
-    <div className='chk-btn-cont'><button className='chk-btn' onClick={onConfirmOrder}>Proceed to pay</button></div>
-    </>
+  </div>
+  <div className="flex justify-center mt-6">
+    <button
+      className="chk-btn bg-indigo-600 text-white py-3 px-8 rounded-lg shadow-md hover:bg-indigo-500 transition duration-300"
+      onClick={onConfirmOrder}
+    >
+      Proceed to Pay
+    </button>
+  </div>
+</>
+
   )
 }
 
