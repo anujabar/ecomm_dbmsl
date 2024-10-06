@@ -65,7 +65,7 @@ const Payment = ({ total, items , onPaymentSuccess}) => {
             {items.map((item) => (
               <div key={item.id} className="flex justify-between">
                 <span>{item.title} (Quantity: {item.quantity})</span>
-                <span>₹ {item.price * item.quantity}</span>
+                <span>₹ {(item.price-(item.price * item.salePercentage/100)) * item.quantity}</span>
               </div>
             ))}
           </div>
