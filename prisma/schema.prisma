@@ -71,3 +71,12 @@ model OrderItem {
   product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
 }
 
+model Payment {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  amount    Float
+  createdAt DateTime @default(now())
+}
+
+
