@@ -1,9 +1,13 @@
+import { useRouter } from 'next/router';
 import { useAuthContext } from '../(hooks)/useAuthContext';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const Payment = () => {
   const { user } = useAuthContext();
   const [paymentStatus, setPaymentStatus] = useState('');
+  const router = useRouter()
+  const {total} = router.query
+
 
   const handlePayment = async () => {
     try {
@@ -15,7 +19,7 @@ const Payment = () => {
         },
         body: JSON.stringify({
           userId: user.id,
-          amount: 1000, // Example payment amount, could be dynamic based on total
+          amount: parseFloat(total), 
         }),
       });
 
@@ -23,20 +27,38 @@ const Payment = () => {
         throw new Error('Payment failed.');
       }
 
-      setPaymentStatus('Payment successful!');
+      const deleteResponse = await fetch(`/api/checkout/${user.id}`, {
+        method: "DELETE",
+        headers: {
+          "Authorization": `Bearer ${user.token}`,
+        },
+      });
+
+      if (!deleteResponse.ok) {
+        throw new Error('Failed to delete the order.');
+      }
+
+      setPaymentStatus('Payment successful! Order deleted.');
+
     } catch (error) {
-      console.error(error.message);
+      console.error("Error during payment process:", error.message);
       setPaymentStatus('Payment failed.');
     }
   };
+  useEffect(() => {
+    if (!total) {
+      setPaymentStatus('No total amount provided.');
+    }
+  }, [total]);
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md text-center">
         <h1 className="text-2xl font-semibold mb-6">Complete Payment</h1>
+        <h2 className="text-lg">Total Amount: ₹ {total}</h2>
         <button
           onClick={handlePayment}
-          className="bg-green-600 text-white py-3 px-8 rounded-lg shadow-md hover:bg-green-500 transition duration-300"
+          className="bg-green-600 text-white py-3 px-8 rounded-lg shadow-md hover:bg-green-500 transition duration-300 mt-4"
         >
           Pay Now
         </button>

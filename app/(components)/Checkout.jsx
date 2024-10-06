@@ -1,8 +1,11 @@
 import React, { useEffect,useState } from 'react'
 import { useAuthContext } from '../(hooks)/useAuthContext'
+import { useRouter } from 'next/router'
 
 const Checkout = ({items}) => {
   const {user}=useAuthContext()
+  const [total,setTotal]=useState(0)
+  const router = useRouter()
   const onConfirmOrder=async()=>{
     try {
       const postResponse = await fetch(`/api/checkout/${user.id}`, {
@@ -17,6 +20,7 @@ const Checkout = ({items}) => {
       if (!postResponse.ok) {
         throw new Error('Failed to complete checkout.');
       }
+      router.push(`/payment?total=${total}`);
     
       const deleteResponse = await fetch(`/api/checkout/${user.id}`, {
         method: "DELETE",
@@ -37,7 +41,7 @@ const Checkout = ({items}) => {
     }
     
   }
-  const [total,setTotal]=useState(0)
+  
   useEffect(()=>{
     let t=0
     items.forEach((i)=>{
