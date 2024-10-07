@@ -47,7 +47,7 @@ const MyProducts = () => {
   }
 
   return (
-    <ProtectedRoute roles={['seller']}>
+    <ProtectedRoute roles={['Seller']}>
     <div>
       <h1>My Products</h1>
       {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}

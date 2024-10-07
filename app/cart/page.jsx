@@ -51,7 +51,7 @@ const Cart = () => {
       setCartItems((prevItems) => prevItems.filter(item => item.id !== itemId));
     };
   return (
-    <ProtectedRoute roles={['buyer', 'seller']}>
+    <ProtectedRoute roles={['Buyer', 'Seller']}>
     <div>
       {empty && <div className='flex justify-center items-center'>
           <h2>Wow! Such empty.</h2>

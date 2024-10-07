@@ -11,9 +11,13 @@ const Navbar = () => {
     <nav>
       <h1>Ecomm</h1>
       <Link href="/">Home</Link>
+      {!user && <>
       <Link href="/login">Login</Link>
       <Link href="/signup">Signup</Link>
+      </>}
+      {user && 
       <Link href="/logout">Logout</Link>
+      } 
       <Link href='/cart'><FaShoppingCart size={20} className='inline mr-2' />Cart</Link>
       <Link href='/products/all'>Explore</Link>
       {user && user.role=='Seller' && <>
