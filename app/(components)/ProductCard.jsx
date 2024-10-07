@@ -43,8 +43,12 @@ export default function ProductCard({product}) {
                             <p className="text-lg font-bold">₹ {product.price}</p>
                         )}
                     </div>
+
+            {product.seller!=user.id &&<>
             {product.quantity>0? <button className='border-2 h-10 rounded-md p-2' onClick={()=>{handleCart(product.id)}}>Add to Cart</button> : <p className='border-2 flex items-center h-10 rounded-md p-2 text-white bg-red-600 '>SOLD OUT</p>}
-          </div>
+            </>
+              }  
+              </div>
         </div>
         <div className="h-64 w-full bg-black flex items-center justify-center">
         <Carousel showThumbs={false} showStatus={false}>

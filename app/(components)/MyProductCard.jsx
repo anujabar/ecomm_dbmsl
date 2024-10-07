@@ -74,25 +74,34 @@ export default function MyProductCard({ product }) {
       <div key={product.id} className="border rounded-lg overflow-hidden shadow-md">
         <div className="p-4">
           <Link href={`/productdetails/${product.id}`}><h2 className="text-xl font-semibold">{product.title}</h2></Link>
-          <div className="flex justify-between">
-            <p className="text-lg font-bold">₹ {product.price}</p>
-            
+          
+          <div className='flex flex-col'>
+                        {product.salePercentage > 0 ? (
+                            <>
+                                <p className="text-lg font-bold line-through text-gray-500">₹ {product.price}</p>
+                                <p className="text-lg font-bold text-red-800">₹ {(product.price - (product.price * product.salePercentage/100)).toFixed(2)}</p>
+                                <span className="text-sm text-green-600">Save {product.salePercentage}%</span>
+                            </>
+                        ) : (
+                            <p className="text-lg font-bold">₹ {product.price}</p>
+                        )}
+                    </div>
           </div>
-        </div>
-        <div className="h-48 w-full bg-black flex items-center justify-center">
-          {/* <Carousel showThumbs={false} showStatus={false}>
-            {product.images.map((url, index) => (
-              <div key={index} className="h-full flex items-center justify-center">
-                <img
-                  src={url}
-                  alt={`Product Image ${index + 1}`}
-                  className="h-auto w-auto max-w-full object-contain"
-                />
-              </div>
-            ))}
-          </Carousel> */}
-        </div>
-        <div className="flex justify-between">
+        
+        <div className="h-64 w-full bg-black flex items-center justify-center">
+        <Carousel showThumbs={false} showStatus={false}>
+          {product.images.map((url, index) => (
+            <div key={index} className="h-full flex items-center justify-center">
+              <img
+                src={url}
+                alt={`Product Image ${index + 1}`}
+                className="object-contain max-h-64 max-w-64"  // Limit image height and width
+              />
+            </div>
+          ))}
+        </Carousel>
+      </div>
+        <div className="flex p-5 justify-between">
           <button onClick={handleEdit} className="bg-blue-500 text-white px-4 py-2 rounded-md">
             Edit
           </button>
