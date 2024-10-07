@@ -81,7 +81,7 @@ const Page = () => {
   };
 
   return (
-    <ProtectedRoute roles={['seller']}>
+    <ProtectedRoute roles={['Seller']}>
     <div>
       <h1>Upload New Product</h1>
       <form onSubmit={handleSubmit}>
