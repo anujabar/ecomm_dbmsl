@@ -16,7 +16,10 @@ async function getReviews(req,{params}) {
             }
         });
         console.log(1)
-
+        console.log(rev)
+        if (rev==null){
+            return NextResponse.json({userRev:0}, {status: 201})
+        }
       return NextResponse.json({userRev:rev.stars}, {status: 201})
       
     } catch (error) {
@@ -49,12 +52,24 @@ async function postReviews(req,{params}) {
         });
         }
         else{
-                await db.product.update({
+            await db.product.update({
+            where:{
+                id:parseInt(prodId)
+            },
+            data: {
+            stars:{increment: (parseFloat(data.newStars) - parseFloat(data.oldStars))},
+            }
+            });
+
+            await db.review.update({
                 where:{
-                    id:parseInt(prodId)
+                    userId_productId: {
+                        userId: data.userId,        
+                        productId: parseInt(prodId )    
+                      }
                 },
                 data: {
-                stars:{increment: (parseFloat(data.newStars) - parseFloat(data.oldStars))},
+                    stars: parseFloat(data.newStars),
                 }
             });
         }

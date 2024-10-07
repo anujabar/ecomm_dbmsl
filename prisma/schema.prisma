@@ -92,10 +92,11 @@ model Review {
   id         Int      @id @default(autoincrement())
   userId     Int
   productId  Int      
-  stars      Int      @default(0)
+  stars      Float      @default(0)
 
   user       User     @relation(fields: [userId], references: [id])
   product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  @@unique([userId, productId])
 }
 
 

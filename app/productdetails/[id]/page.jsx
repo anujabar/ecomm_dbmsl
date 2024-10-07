@@ -95,11 +95,28 @@ const ProductDetails = ({ params }) => {
           key={i}
           style={{ display: 'inline-block', position: 'relative', cursor: 'pointer' }}
           onMouseMove={(e) => handleMouseMove(e, i)}
-          onMouseLeave={() => setHoveredRating(null)}
+          onMouseLeave={() => setHoveredRating(userRating)}
           onClick={() => handleStarClick(hoveredRating || userRating || yellowStars)}
         >
           <FaStar
             color={(userRating) > i ? 'yellow' : 'gray'}
+            size={30}
+          />
+        </div>
+      );
+    }
+    return stars;
+  };
+  const renderAvgStars = (rating) => {
+    const stars = [];
+    for (let i = 0; i < 5; i++) {
+      stars.push(
+        <div
+          key={i}
+          style={{ display: 'inline-block', position: 'relative', cursor: 'pointer' }}
+        >
+          <FaStar
+            color={(rating) > i ? 'yellow' : 'gray'}
             size={30}
           />
         </div>
@@ -149,9 +166,9 @@ const ProductDetails = ({ params }) => {
 
             {/* Average Rating */}
             <div className="mt-4">
-              <h3 className="text-lg font-semibold">Average Rating: {yellowStars}</h3>
+              <h3 className="text-lg font-semibold">Average Rating: {(product.stars / product.reviews).toFixed(1)}</h3>
               <div className="flex items-center space-x-2">
-                {product.stars / product.reviews}
+                {renderAvgStars((product.stars / product.reviews).toFixed(1))}
                 <p className="text-gray-600">({product.reviews} Reviews)</p>
               </div>
             </div>

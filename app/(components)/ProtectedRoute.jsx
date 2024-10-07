@@ -13,7 +13,6 @@ const ProtectedRoute = ({ children, roles }) => {
         router.push('/not-authorized');
       }
     } else {
-        alert("You are not logged in!")
         router.push('/login');
     }
   }, [user, roles, router]);
