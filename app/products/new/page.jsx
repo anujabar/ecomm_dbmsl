@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { redirect, useRouter } from 'next/navigation';
 import { useAuthContext } from '@/app/(hooks)/useAuthContext';
+import ProtectedRoute from '@/app/(components)/ProtectedRoute';
 
 
 const Page = () => {
@@ -80,6 +81,7 @@ const Page = () => {
   };
 
   return (
+    <ProtectedRoute roles={['seller']}>
     <div>
       <h1>Upload New Product</h1>
       <form onSubmit={handleSubmit}>
@@ -158,6 +160,7 @@ const Page = () => {
       {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
       {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
     </div>
+    </ProtectedRoute>
   );
 };
 

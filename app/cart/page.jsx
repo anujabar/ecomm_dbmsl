@@ -4,6 +4,7 @@ import { useAuthContext } from '../(hooks)/useAuthContext'
 import { Carousel } from 'react-responsive-carousel'
 import CartCard from '../(components)/CartCard'
 import Checkout from '../(components)/Checkout'
+import ProtectedRoute from '../(components)/ProtectedRoute'
 
 const Cart = () => {
     const {user}=useAuthContext()
@@ -50,6 +51,7 @@ const Cart = () => {
       setCartItems((prevItems) => prevItems.filter(item => item.id !== itemId));
     };
   return (
+    <ProtectedRoute roles={['buyer', 'seller']}>
     <div>
       {empty && <div className='flex justify-center items-center'>
           <h2>Wow! Such empty.</h2>
@@ -64,6 +66,7 @@ const Cart = () => {
       {checkout && <Checkout items={cartItems}/>}
       {checkout && <div className='chk-btn-cont'><button className='chk-btn' onClick={()=>{setCheckout(false)}}>Back</button></div>}
     </div>
+    </ProtectedRoute>
   )
 }
 

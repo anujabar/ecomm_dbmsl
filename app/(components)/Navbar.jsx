@@ -16,7 +16,7 @@ const Navbar = () => {
       <Link href="/logout">Logout</Link>
       <Link href='/cart'><FaShoppingCart size={20} className='inline mr-2' />Cart</Link>
       <Link href='/products/all'>Explore</Link>
-      {user && <Link href='/products/new'>Add Product</Link>}
+      {user && user.role=='seller' && <Link href='/products/new'>Add Product</Link>}
     </nav>
   )
 }

@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { Carousel } from 'react-responsive-carousel';
 import ProductCard from '@/app/(components)/ProductCard';
 import MyProductCard from '@/app/(components)/MyProductCard';
+import ProtectedRoute from '@/app/(components)/ProtectedRoute';
 
 const MyProducts = () => {
   const { user } = useAuthContext();
@@ -46,6 +47,7 @@ const MyProducts = () => {
   }
 
   return (
+    <ProtectedRoute roles={['seller']}>
     <div>
       <h1>My Products</h1>
       {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
@@ -64,6 +66,7 @@ const MyProducts = () => {
     
       )}
     </div>
+    </ProtectedRoute>
   );
 };
 
