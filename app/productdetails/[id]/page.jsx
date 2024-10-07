@@ -26,7 +26,7 @@ const ProductDetails = ({ params }) => {
     };
     const getUserReview = async()=>{
         try{
-            const res = await fetch(`http://localhost:3000/api/reviews/${id}`,{
+            const res = await fetch(`/api/reviews/${id}`,{
                 method: 'POST',
                 headers:{
                     "Authorization": `Bearer ${user.token}`
