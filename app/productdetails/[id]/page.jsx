@@ -60,7 +60,8 @@ const ProductDetails = ({ params }) => {
   const handleStarClick = async (rating) => {
     try {
       console.log(rating);
-      console.log("user : ", userRating)
+      const old = userRating
+      setUserRating(rating);
       const response = await fetch(`/api/reviews/${id}`, {
         method: 'PATCH',
         headers: {
@@ -69,7 +70,7 @@ const ProductDetails = ({ params }) => {
         },
         body: JSON.stringify({ 
             newStars : rating, userId : user.id ,
-            oldStars : userRating})
+            oldStars : old})
       });
 
       if (response.ok) {
