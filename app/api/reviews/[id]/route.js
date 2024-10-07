@@ -5,8 +5,10 @@ import { NextResponse } from "next/server";
 
 async function getReviews(req,{params}) {
     const {id:prodId}=params
+    
     try {
         const data=await req.json()
+        console.log(data)
         const rev=await db.review.findFirst({
             where:{
                 productId:parseInt(prodId),
@@ -27,22 +29,37 @@ async function postReviews(req,{params}) {
     const {id:prodId}=params
     try {
         const data=await req.json()
-        await db.product.update({
+        console.log("data: ", data)
+        if (data.oldStars ==0){
+            await db.product.update({
             where:{
                 id:parseInt(prodId)
             },
             data: {
-            stars:data.stars+data.newStars,
+            stars:{increment: (parseFloat(data.newStars) - parseFloat(data.oldStars))},
             reviews: {increment : 1}
             }
         });
         await db.review.create({
             data: {
-            stars:data.newStars,
-            userId:data.userId,
-            productId:prodId
+            stars: parseFloat(data.newStars),
+            userId: parseInt(data.userId),
+            productId: parseInt(prodId)
             }
         });
+        }
+        else{
+                await db.product.update({
+                where:{
+                    id:parseInt(prodId)
+                },
+                data: {
+                stars:{increment: (parseFloat(data.newStars) - parseFloat(data.oldStars))},
+                }
+            });
+        }
+        
+        
       console.log(1)
 
       return NextResponse.json({message:"Success"}, {status: 201})
@@ -53,5 +70,5 @@ async function postReviews(req,{params}) {
     }
 }
 
-export const GET = authMiddleware(getReviews)
-export const POST = authMiddleware(postReviews)
+export const POST = authMiddleware(getReviews)
+export const PATCH = authMiddleware(postReviews)

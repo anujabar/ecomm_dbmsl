@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import { FaStar } from "react-icons/fa";
+import { useAuthContext } from '@/app/(hooks)/useAuthContext';
 
 const ProductDetails = ({ params }) => {
   const { id } = params;
@@ -10,20 +11,43 @@ const ProductDetails = ({ params }) => {
   const [hoveredRating, setHoveredRating] = useState(null); // To capture hover effect
   const [userRating, setUserRating] = useState(null); // To capture the user's rating
   const [submittedRating, setSubmittedRating] = useState(null); // To store user-submitted rating
+  const {user} = useAuthContext()
 
   useEffect(() => {
     const getProduct = async () => {
       try {
         const response = await fetch(`/api/products/product/${id}`);
         const result = await response.json();
-        setYellowStars(result.product.stars);
+        setYellowStars(result.product.stars / result.product.reviews);
         setProduct(result.product);
       } catch (error) {
         console.log(error.message);
       }
     };
+    const getUserReview = async()=>{
+        try{
+            const res = await fetch(`http://localhost:3000/api/reviews/${id}`,{
+                method: 'POST',
+                headers:{
+                    "Authorization": `Bearer ${user.token}`
+                },
+                body: JSON.stringify({
+                    userId: user.id
+                })
+            })
+            const r = await res.json()
+            console.log(r)
+            setUserRating(r.userRev)
+            setHoveredRating(r.userRev)
+        }catch(e){
+            console.log(e)
+        }
+    }
     getProduct();
-  }, [id]);
+    if (user){
+        getUserReview();
+    }
+  }, [id, user]);
 
   const handleMouseMove = (e, index) => {
     const { left, width } = e.target.getBoundingClientRect();
@@ -36,12 +60,16 @@ const ProductDetails = ({ params }) => {
   const handleStarClick = async (rating) => {
     try {
       console.log(rating);
-      const response = await fetch(`/api/products/rate/${id}`, {
-        method: 'POST',
+      console.log("user : ", userRating)
+      const response = await fetch(`/api/reviews/${id}`, {
+        method: 'PATCH',
         headers: {
-          'Content-Type': 'application/json',
+            'Content-Type': 'application/json',
+            "Authorization": `Bearer ${user.token}`
         },
-        body: JSON.stringify({ rating }),
+        body: JSON.stringify({ 
+            newStars : rating, userId : user.id ,
+            oldStars : userRating})
       });
 
       if (response.ok) {
@@ -58,6 +86,8 @@ const ProductDetails = ({ params }) => {
   };
 
   const renderStars = (rating) => {
+    console.log(1, rating)
+    console.log(hoveredRating, yellowStars )
     const stars = [];
     for (let i = 0; i < 5; i++) {
       stars.push(
@@ -69,7 +99,7 @@ const ProductDetails = ({ params }) => {
           onClick={() => handleStarClick(hoveredRating || userRating || yellowStars)}
         >
           <FaStar
-            color={(hoveredRating || yellowStars) > i ? 'yellow' : 'gray'}
+            color={(userRating) > i ? 'yellow' : 'gray'}
             size={30}
           />
         </div>
@@ -131,7 +161,7 @@ const ProductDetails = ({ params }) => {
               <h3 className="text-lg font-semibold">Rate this product</h3>
               <div className="flex items-center space-x-2">
                 {renderStars(hoveredRating || userRating || yellowStars)}
-                <p className="text-gray-600">Hovered Rating: {hoveredRating}</p>
+                <p className="text-gray-600"> {hoveredRating}</p>
                 
               </div>
             </div>
