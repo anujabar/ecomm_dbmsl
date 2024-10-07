@@ -28,7 +28,7 @@ export default function ProductCard({product}) {
       }
 
     return (
-      <div key={product.id} className="border rounded-lg overflow-hidden shadow-md">
+      <div key={product.id} className="border rounded-lg overflow-hidden  shadow-md">
         <div className="p-4">
           <Link href={`/productdetails/${product.id}`}><h2 className="text-xl font-semibold">{product.title}</h2></Link>
           <div className='flex justify-between'>
@@ -46,19 +46,19 @@ export default function ProductCard({product}) {
             {product.quantity>0? <button className='border-2 h-10 rounded-md p-2' onClick={()=>{handleCart(product.id)}}>Add to Cart</button> : <p className='border-2 flex items-center h-10 rounded-md p-2 text-white bg-red-600 '>SOLD OUT</p>}
           </div>
         </div>
-        <div className="h-48 w-full bg-black flex items-center justify-center">
-          <Carousel showThumbs={false} showStatus={false}>
-            {product.images.map((url, index) => (
-              <div key={index} className="h-full flex items-center justify-center">
-                <img
-                  src={url}
-                  alt={`Product Image ${index + 1}`}
-                  className="h-auto w-auto max-w-full object-contain"
-                />
-              </div>
-            ))}
-          </Carousel>
-        </div>
+        <div className="h-64 w-full bg-black flex items-center justify-center">
+        <Carousel showThumbs={false} showStatus={false}>
+          {product.images.map((url, index) => (
+            <div key={index} className="h-full flex items-center justify-center">
+              <img
+                src={url}
+                alt={`Product Image ${index + 1}`}
+                className="object-contain max-h-64 max-w-64"  // Limit image height and width
+              />
+            </div>
+          ))}
+        </Carousel>
+      </div>
       </div>
 );
 }

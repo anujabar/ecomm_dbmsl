@@ -75,19 +75,19 @@ const CartCard = ({item, updateQuantity, removeItem}) => {
                     </div>
                 </div>
         </div>
-        <div className="h-48 w-full bg-black flex items-center justify-center">
-                {/* <Carousel showThumbs={false} showStatus={false}>
-                  {item.images.map((url, index) => (
-                    <div key={index} className="h-full flex items-center justify-center">
-                      <img
-                        src={url}
-                        alt={`Product Image ${index + 1}`}
-                        className="h-auto w-auto max-w-full object-contain"
-                      />
-                    </div>
-                  ))}
-                </Carousel> */}
-        </div>
+        <div className="h-64 w-full bg-black flex items-center justify-center">
+            <Carousel showThumbs={false} showStatus={false}>
+            {item.images.map((url, index) => (
+                <div key={index} className="h-full flex items-center justify-center">
+                <img
+                    src={url}
+                    alt={`Product Image ${index + 1}`}
+                    className="object-contain max-h-64 max-w-64"  // Limit image height and width
+                />
+                </div>
+            ))}
+            </Carousel>
+         </div>
       </div>
   )
 }
