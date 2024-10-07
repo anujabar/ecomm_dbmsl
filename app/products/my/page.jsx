@@ -42,13 +42,11 @@ const MyProducts = () => {
     }
   };
 
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
   return (
     <ProtectedRoute roles={['Seller']}>
-    <div>
+      {loading? <p>Loading...</p>
+      :
+      <div>
       <h1>My Products</h1>
       {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
       {products.length === 0 ? (
@@ -66,6 +64,8 @@ const MyProducts = () => {
     
       )}
     </div>
+      }
+   
     </ProtectedRoute>
   );
 };

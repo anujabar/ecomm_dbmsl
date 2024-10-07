@@ -53,18 +53,22 @@ const Cart = () => {
   return (
     <ProtectedRoute roles={['Buyer', 'Seller']}>
     <div>
-      {empty && <div className='flex justify-center items-center'>
+      {empty?  <div className='flex justify-center items-center'>
           <h2>Wow! Such empty.</h2>
-        </div>}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {!checkout && cartItems.length!==0 && cartItems.map((item)=>{
-          return <CartCard key={item.id} item={item} updateQuantity={updateCartItemQuantity}
-          removeItem={removeCartItem}/>
-        })}
-      </div>
-      {!checkout && !empty && <div className='chk-btn-cont'><button className='chk-btn' onClick={()=>{setCheckout(true)}}>Checkout</button></div>}
-      {checkout && <Checkout items={cartItems}/>}
-      {checkout && <div className='chk-btn-cont'><button className='chk-btn' onClick={()=>{setCheckout(false)}}>Back</button></div>}
+        </div>:
+        <>
+         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+         {!checkout && cartItems.length!==0 && cartItems.map((item)=>{
+           return <CartCard key={item.id} item={item} updateQuantity={updateCartItemQuantity}
+           removeItem={removeCartItem}/>
+         })}
+       </div>
+       {!checkout && !empty && <div className='chk-btn-cont'><button className='chk-btn' onClick={()=>{setCheckout(true)}}>Checkout</button></div>}
+       {checkout && <Checkout items={cartItems}/>}
+       {checkout && <div className='chk-btn-cont'><button className='chk-btn' onClick={()=>{setCheckout(false)}}>Back</button></div>}
+       </>
+        }
+     
     </div>
     </ProtectedRoute>
   )
