@@ -26,6 +26,7 @@ model User {
   products Product[]
   order    Order[] 
   payments Payment[]
+  review   Review[]
 }
 
 model Product {
@@ -35,7 +36,8 @@ model Product {
   price         Float
   category      String
   salePercentage Float    @default(0)
-  stars         Int       @default(0)
+  stars          Float    @default(0)
+  reviews       Int       @default(0)
   quantity      Int
   images        String[]
   seller        Int
@@ -44,6 +46,7 @@ model Product {
   sellerId      User      @relation(fields: [seller], references: [id]) // Relation to User
   cart          Cart[]     // Relation to Cart model
   OrderItem     OrderItem[]
+  Review        Review[]
 }
 
 model Cart {
@@ -83,6 +86,16 @@ model Payment {
 
   customer      User      @relation(fields: [userId], references: [id])
   orderDet     Order?     @relation(fields: [orderId], references: [id])
+}
+
+model Review {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  productId  Int      
+  stars      Int      @default(0)
+
+  user       User     @relation(fields: [userId], references: [id])
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
 }
 
 
