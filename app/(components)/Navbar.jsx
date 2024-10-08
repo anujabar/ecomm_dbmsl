@@ -25,7 +25,7 @@ const Navbar = () => {
       <Link href='/products/my'>My Products</Link>
       </>}
       {user && user.role=='Buyer'&&<>
-        <Link href='order-history'>My Orders</Link>
+        <Link href='/order-history'>My Orders</Link>
       </>}
     </nav>
   )
